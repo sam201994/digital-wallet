@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { InputField, PasswordField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
@@ -6,6 +7,7 @@ import Box from "components/Box";
 const Signin = () => {
 	const [formData, setFormData] = useState({});
 	const [errorState, setError] = useState({});
+	const navigate = useNavigate();
 
 	const onChange = (key, value) => {
 		setFormData({
@@ -34,7 +36,9 @@ const Signin = () => {
 		}
 	};
 
-	const gotoSignup = () => {};
+	const gotoSignup = () => {
+		navigate("/signup");
+	};
 
 	return (
 		<Box.Page>

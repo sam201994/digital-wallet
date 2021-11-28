@@ -11,7 +11,7 @@ const Row = styled.div`
 `;
 const Auth = styled.div`
 	width: 25vw;
-	min-width: 300px;
+	min-width: 220px;
 	display: flex;
 	flex-direction: column;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

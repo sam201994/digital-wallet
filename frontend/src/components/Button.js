@@ -6,10 +6,15 @@ const buttonStyle = {
 	justifyContent: "center",
 	backgroundColor: "#3640f3",
 	color: "white",
+	textAlign: "center",
 };
 
-const Button = ({ label, onClick, customStyles={} }) => {
-	return <div onClick={onClick} style={{...buttonStyle, ...customStyles}}>{label}</div>;
+const Button = ({ label, onClick, customStyles = {} }) => {
+	return (
+		<div onClick={onClick} style={{ ...buttonStyle, ...customStyles }}>
+			{label}
+		</div>
+	);
 };
 
 export default Button;
