@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/buy", checkAuth, async (req, res, next) => {
   const { bitcoin, value } = req.body;
-  const id = req.userData.userId
+  const id = req.userData.userId;
   try {
     const user = await UserUtils.fetchUserById(id);
     if (!user) {
@@ -20,8 +20,11 @@ router.post("/buy", checkAuth, async (req, res, next) => {
       bitcoin,
       value
     );
+    const newUserData = await UserUtils.fetchUserById(id);
+
     return res.status(201).json({
       message: `Successfully bought bitcoin for userId ${id}`,
+      user: newUserData,
     });
 
     throw { status: 500, message: "Update Failed" };
@@ -36,7 +39,7 @@ router.post("/buy", checkAuth, async (req, res, next) => {
 
 router.post("/sell", checkAuth, async (req, res, next) => {
   const { bitcoin, value } = req.body;
-  const id = req.userData.userId
+  const id = req.userData.userId;
   try {
     const user = await UserUtils.fetchUserById(id);
     if (!user) {
@@ -50,8 +53,11 @@ router.post("/sell", checkAuth, async (req, res, next) => {
       bitcoin,
       value
     );
+    const newUserData = await UserUtils.fetchUserById(id);
+
     return res.status(201).json({
       message: `Successfully sold bitcoin for userId ${id}`,
+      user: newUserData,
     });
 
     throw { status: 500, message: "Update Failed" };

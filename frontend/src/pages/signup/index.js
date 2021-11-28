@@ -3,21 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { InputField, PasswordField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
+import Apis from "apis";
+import AuthUtils from "utils/auth";
 
 const Signup = () => {
 	const [formData, setFormData] = useState({});
 	const [errorState, setError] = useState({});
 	const navigate = useNavigate();
 
-	const onChange = (key, value) => {
+	const onChange = (e) => {
+		const value = e.target.value;
+		const id = e.target.id;
 		setFormData({
 			...formData,
-			[key]: value,
+			[id]: value,
 		});
 		if (value) {
 			setError({
 				...errorState,
-				[key]: false,
+				[id]: false,
 			});
 		}
 	};
@@ -37,6 +41,18 @@ const Signup = () => {
 			setError(newErrorState);
 			return;
 		}
+		if (formData.password !== formData.confirmPassword) {
+			setError({ ...errorState, confirmPassword: true });
+			return;
+		}
+		Apis.signup({
+			username: formData.username,
+			password: formData.password,
+		})
+			.then(() => navigate("/"))
+			.catch(() => {
+				AuthUtils.removeAuthToken();
+			});
 	};
 
 	const gotoSignin = () => {

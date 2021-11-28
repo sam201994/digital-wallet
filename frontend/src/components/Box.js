@@ -37,9 +37,11 @@ const Header = styled.div`
 	font-size: 1.5rem;
 `;
 
-export default {
+const Box = {
 	Row,
 	Page,
 	Auth,
 	Header,
 };
+
+export default Box;

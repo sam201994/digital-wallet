@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const inputStyle = {
@@ -9,19 +8,29 @@ const inputStyle = {
 	width: "100%",
 };
 
-export const InputField = ({ customStyles, id, type, label, onChange, value, error }) => {
+export const InputField = ({
+	customStyles,
+	id,
+	type,
+	label,
+	onChange,
+	value,
+	error,
+}) => {
 	return (
 		<div style={{ display: "flex", width: "100%" }}>
 			<input
 				type={type}
-				onChange={(e) => {
-					onChange(id, e.target.value);
-				}}
+				onChange={onChange}
 				value={value}
 				name={id}
 				id={id}
 				placeholder={label}
-				style={{ ...inputStyle, ...customStyles, borderColor: error ? "red" : "grey" }}
+				style={{
+					...inputStyle,
+					...customStyles,
+					borderColor: error ? "red" : "grey",
+				}}
 			/>
 		</div>
 	);
@@ -33,9 +42,7 @@ export const PasswordField = ({ id, type, label, onChange, value, error }) => {
 		<div style={{ display: "flex", position: "relative", width: "100%" }}>
 			<input
 				type={showPassword ? "text" : type}
-				onChange={(e) => {
-					onChange(id, e.target.value);
-				}}
+				onChange={onChange}
 				value={value}
 				name={id}
 				id={id}

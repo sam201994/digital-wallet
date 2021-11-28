@@ -3,13 +3,7 @@ import User from "../models/user.js";
 
 const fetchUserByUsername = async (username) => {
   const user = await User.findOne({ username }).exec();
-  if (!user) return null;
-  return {
-    username: user.username,
-    wallet: user.wallet,
-    bitcoin: user.bitcoin,
-    id: user._id,
-  };
+  return user;
 };
 
 const fetchUserById = async (id) => {
@@ -40,38 +34,38 @@ const createUser = async (username, hashedPassword) => {
 };
 
 const buyBitcoinAndUpdateUser = async (user, bitcoin, value) => {
-  const result = await User.updateOne(
-    { _id: user._id },
+  const result = await User.findOneAndUpdate(
+    { username: user.username },
     {
-      $set: {
-        bitcoin: {
-          amount: user.bitcoin.amount + bitcoin,
-          value: (user.bitcoin.amount + bitcoin) * value,
-        },
-        wallet: {
-          value: user.wallet.value - bitcoin * value,
-        },
+      bitcoin: {
+        amount: user.bitcoin.amount + bitcoin,
+        value: (user.bitcoin.amount + bitcoin) * value,
       },
-    }
-  ).exec();
+      wallet: {
+        value: user.wallet.value - bitcoin * value,
+      },
+    },
+    { new: true }
+  );
+
   return result;
 };
 
 const sellBitcoinAndUpdateUser = async (user, bitcoin, value) => {
-  const result = await User.updateOne(
-    { _id: user._id },
+  const result = await User.findOneAndUpdate(
+    { username: user.username },
     {
-      $set: {
-        bitcoin: {
-          amount: user.bitcoin.amount - bitcoin,
-          value: (user.bitcoin.amount - bitcoin) * value,
-        },
-        wallet: {
-          value: user.wallet.value + bitcoin * value,
-        },
+      bitcoin: {
+        amount: user.bitcoin.amount - bitcoin,
+        value: (user.bitcoin.amount - bitcoin) * value,
       },
-    }
-  ).exec();
+      wallet: {
+        value: user.wallet.value + bitcoin * value,
+      },
+    },
+    { new: true }
+  );
+
   return result;
 };
 

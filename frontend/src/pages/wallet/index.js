@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { InputField, PasswordField } from "components/FormFields";
+import styled from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
+import { InputField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
-import styled from "styled-components";
+import Apis from "apis";
 
 const Row = styled.div`
 	margin-bottom: 1rem;
@@ -13,46 +15,83 @@ const Row = styled.div`
 `;
 
 const Wallet = () => {
-	const [valueOfBitcoin, setBitcoinValue] = useState(0)
-	const [data, setData] = useState({})
-	const [loading, setLoading] = useState(true)
+	// const [valueOfBitcoin, setBitcoinValue] = useState(54082.8);
+	const valueOfBitcoin = 54082.8;
+	const [data, setData] = useState({});
+	const [loading, setLoading] = useState(true);
+	const [numberOfBitcoins, setNumberOfBitcoin] = useState(1);
+	const navigate = useNavigate();
 
-	
-	
-	const handleBuyBitcoin = () => {};
+	useEffect(() => {
+		Apis.fetchUserData()
+			.then((res) => {
+				setData(res.user);
+				setLoading(false);
+			})
+			.catch((e) => {
+				navigate("/signin");
+			});
+	}, [navigate]);
 
-	const handleSellBitcoin = () => {};
+	const handleBuyBitcoin = () => {
+		Apis.buyBitcoin({
+			bitcoin: parseFloat(numberOfBitcoins),
+			value: valueOfBitcoin,
+		}).then((res) => {
+			setData(res.user);
+		});
+	};
 
-	const handleBitcoin = () => {};
+	const handleSellBitcoin = () => {
+		Apis.sellBitcoin({
+			bitcoin: parseFloat(numberOfBitcoins),
+			value: valueOfBitcoin,
+		}).then((res) => {
+			setData(res.user);
+		});
+	};
 
-	return (
-		<Box.Page>
+	const handleBitcoin = (e) => {
+		const value = e.target.value;
+		setNumberOfBitcoin(value);
+	};
+
+	const renderBody = () => {
+		return (
 			<Box.Auth>
 				<Row>
+					<div>Value of 1 Bitcoin</div>
+					<div>{valueOfBitcoin}</div>
+				</Row>
+				<Row>
 					<div>Wallet Balance</div>
-					<div>500000</div>
+					<div>{data?.wallet?.value}</div>
 				</Row>
 				<Row>
 					<div>Total Bitcoins</div>
-					<div>0</div>
+					<div>{data?.bitcoin?.amount}</div>
 				</Row>
 
 				<Row>
 					<div>Total Bitcoins Worth</div>
-					<div>0</div>
+					<div>{data?.bitcoin?.value}</div>
 				</Row>
-
+				<div style={{ marginTop: "2rem" }} />
 				<Row>
 					<InputField
-						type="text"
+						type="number"
 						label="Number of bitcoins"
 						onChange={handleBitcoin}
-						id="username"
-						value={""}
-						customStyles={{ width: "50%" }}
+						id="bitcoin"
+						value={numberOfBitcoins}
+						customStyles={{ minWidth: "60%" }}
 						error={false}
 					/>
-					<div style={{ display: "flex", alignItems: "center" }}>4000</div>
+				</Row>
+				<Row style={{ justifyContent: "center" }}>
+					<div style={{ color: "blue", display: "flex", alignItems: "center" }}>
+						{valueOfBitcoin * numberOfBitcoins}
+					</div>
 				</Row>
 
 				<Row style={{ marginBottom: 0 }}>
@@ -76,6 +115,13 @@ const Wallet = () => {
 					/>
 				</Row>
 			</Box.Auth>
+		);
+	};
+
+	return (
+		<Box.Page>
+			<ClipLoader color={"#42b72a"} loading={loading} size={30} />
+			{!loading && renderBody()}
 		</Box.Page>
 	);
 };

@@ -11,15 +11,14 @@ router.post("/signup", async (req, res, next) => {
   try {
     const user = await UserUtils.fetchUserByUsername(username);
     if (user) {
-      throw { status: 409, message: "Mail Exists" };
+      throw { status: 409, message: "Username Exists" };
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await UserUtils.createUser(username, hashedPassword);
-
     const token = jwt.sign(
       {
         username: result.username,
-        userId: result._id,
+        userId: result.id,
       },
       process.env.JWT_KEY,
       {
@@ -29,7 +28,7 @@ router.post("/signup", async (req, res, next) => {
 
     res.status(201).json({
       message: "User created",
-      data: { user: result, token: token },
+      token: token,
     });
   } catch (e) {
     const status = e.status || 500;
@@ -40,12 +39,10 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/signin", async (req, res, next) => {
   const { username, password } = req.body;
-
   try {
     const user = await UserUtils.fetchUserByUsername(username);
-
     if (!user) {
       throw { status: 401, message: "Auth Failed" };
     }
@@ -64,9 +61,7 @@ router.post("/login", async (req, res, next) => {
       );
       return res.status(200).json({
         message: "Auth successful",
-        data: {
-          token: token,
-        },
+        token: token,
       });
     }
 
@@ -91,9 +86,7 @@ router.get("/", checkAuth, async (req, res, next) => {
 
     return res.status(200).json({
       message: "User fetched successfully",
-      data: {
-        user,
-      },
+      user,
     });
     throw { status: 401, message: "Auth Failed" };
   } catch (e) {

@@ -8,9 +8,10 @@ import {
 import Signup from "pages/signup";
 import Signin from "pages/signin";
 import Wallet from "pages/wallet";
+import AuthUtils from "utils/auth";
 
 function PrivateRoute({ children }) {
-  const auth = false;
+  const auth = AuthUtils.getAuthToken();
   return auth ? children : <Navigate to="/signin" />;
 }
 
@@ -24,8 +25,9 @@ function App() {
         <Route
           path="/"
           element={
-            
+            <PrivateRoute>
               <Wallet />
+            </PrivateRoute>
           }
         />
       </Routes>
