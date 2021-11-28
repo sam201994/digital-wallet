@@ -15,8 +15,29 @@ const Row = styled.div`
 	justify-content: space-between;
 `;
 
+const Card = styled.div`
+	margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	padding: 0.8rem;
+	border-radius: 0.5rem;
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	span {
+		color: gray;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+`;
+
 const NumValu = ({ val }) => {
-	return <div>{val.toFixed(4)}</div>;
+	return <span style={{ fontSize: "0.9rem" }}>{val}</span>;
+};
+
+const CardLabel = ({ label }) => {
+	return <div style={{ fontSize: "0.9rem" }}>{label}</div>;
 };
 
 const Wallet = () => {
@@ -73,24 +94,23 @@ const Wallet = () => {
 	const renderBody = () => {
 		return (
 			<Box.Auth>
-				<Row>
-					<div>Value of 1 Bitcoin</div>
+				<Card>
+					<CardLabel label="Value of 1 Bitcoin" />
 					<NumValu val={valueOfBitcoin} />
-				</Row>
-				<Row>
-					<div>Wallet Balance</div>
+				</Card>
+				<Card>
+					<CardLabel label="Wallet Balance" />
 					<NumValu val={data?.wallet?.value} />
-				</Row>
-				<Row>
-					<div>Total Bitcoins</div>
+				</Card>
+				<Card>
+					<CardLabel label="Total Bitcoins Purchased" />
 					<NumValu val={data?.bitcoin?.amount} />
-				</Row>
-
-				<Row>
-					<div>Total Bitcoins Worth</div>
+				</Card>
+				<Card>
+					<CardLabel label="Purchased Bitcoins Worth" />
 					<NumValu val={data?.bitcoin?.value} />
-				</Row>
-				<div style={{ marginTop: "2rem" }} />
+				</Card>
+				<div style={{ marginTop: "1rem" }} />
 				<Row>
 					<InputField
 						type="number"

@@ -4,6 +4,7 @@ const Page = styled.div`
 	display: flex;
 	padding: 5rem;
 	justify-content: center;
+	padding-top: 2rem;
 `;
 
 const Row = styled.div`
