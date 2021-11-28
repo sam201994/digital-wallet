@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { InputField, PasswordField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
+import Toast from "components/Toast";
 import Apis from "apis";
 import AuthUtils from "utils/auth";
 
@@ -43,6 +44,7 @@ const Signup = () => {
 		}
 		if (formData.password !== formData.confirmPassword) {
 			setError({ ...errorState, confirmPassword: true });
+			Toast("error", "both password should match");
 			return;
 		}
 		Apis.signup({
@@ -50,7 +52,8 @@ const Signup = () => {
 			password: formData.password,
 		})
 			.then(() => navigate("/"))
-			.catch(() => {
+			.catch((e) => {
+				Toast("error", e.response.data.message);
 				AuthUtils.removeAuthToken();
 			});
 	};

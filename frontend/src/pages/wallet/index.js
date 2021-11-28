@@ -5,6 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { InputField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
+import Toast from "components/Toast";
 import Apis from "apis";
 
 const Row = styled.div`
@@ -13,6 +14,10 @@ const Row = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 `;
+
+const NumValu = ({ val }) => {
+	return <div>{val.toFixed(4)}</div>;
+};
 
 const Wallet = () => {
 	// const [valueOfBitcoin, setBitcoinValue] = useState(54082.8);
@@ -29,6 +34,7 @@ const Wallet = () => {
 				setLoading(false);
 			})
 			.catch((e) => {
+				Toast("error", e.response.data.message);
 				navigate("/signin");
 			});
 	}, [navigate]);
@@ -37,18 +43,26 @@ const Wallet = () => {
 		Apis.buyBitcoin({
 			bitcoin: parseFloat(numberOfBitcoins),
 			value: valueOfBitcoin,
-		}).then((res) => {
-			setData(res.user);
-		});
+		})
+			.then((res) => {
+				setData(res.user);
+			})
+			.catch((e) => {
+				Toast("error", e.response.data.message);
+			});
 	};
 
 	const handleSellBitcoin = () => {
 		Apis.sellBitcoin({
 			bitcoin: parseFloat(numberOfBitcoins),
 			value: valueOfBitcoin,
-		}).then((res) => {
-			setData(res.user);
-		});
+		})
+			.then((res) => {
+				setData(res.user);
+			})
+			.catch((e) => {
+				Toast("error", e.response.data.message);
+			});
 	};
 
 	const handleBitcoin = (e) => {
@@ -61,20 +75,20 @@ const Wallet = () => {
 			<Box.Auth>
 				<Row>
 					<div>Value of 1 Bitcoin</div>
-					<div>{valueOfBitcoin}</div>
+					<NumValu val={valueOfBitcoin} />
 				</Row>
 				<Row>
 					<div>Wallet Balance</div>
-					<div>{data?.wallet?.value}</div>
+					<NumValu val={data?.wallet?.value} />
 				</Row>
 				<Row>
 					<div>Total Bitcoins</div>
-					<div>{data?.bitcoin?.amount}</div>
+					<NumValu val={data?.bitcoin?.amount} />
 				</Row>
 
 				<Row>
 					<div>Total Bitcoins Worth</div>
-					<div>{data?.bitcoin?.value}</div>
+					<NumValu val={data?.bitcoin?.value} />
 				</Row>
 				<div style={{ marginTop: "2rem" }} />
 				<Row>

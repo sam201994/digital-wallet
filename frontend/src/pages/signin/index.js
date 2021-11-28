@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { InputField, PasswordField } from "components/FormFields";
 import Button from "components/Button";
 import Box from "components/Box";
+import Toast from "components/Toast";
 import Apis from "apis";
 import AuthUtils from "utils/auth";
 
@@ -43,7 +44,8 @@ const Signin = () => {
 			password: formData.password,
 		})
 			.then(() => navigate("/"))
-			.catch(() => {
+			.catch((e) => {
+				Toast("error", e.response.data.message)
 				AuthUtils.removeAuthToken();
 			});
 	};
