@@ -37,7 +37,7 @@ const Signin = () => {
 	};
 
 	const gotoSignup = () => {
-		navigate("/signup");
+		navigate("/");
 	};
 
 	return (

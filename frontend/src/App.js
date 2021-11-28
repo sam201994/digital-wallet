@@ -24,9 +24,8 @@ function App() {
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            
               <Wallet />
-            </PrivateRoute>
           }
         />
       </Routes>

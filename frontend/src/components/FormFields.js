@@ -9,7 +9,7 @@ const inputStyle = {
 	width: "100%",
 };
 
-export const InputField = ({ id, type, label, onChange, value, error }) => {
+export const InputField = ({ customStyles, id, type, label, onChange, value, error }) => {
 	return (
 		<div style={{ display: "flex", width: "100%" }}>
 			<input
@@ -21,7 +21,7 @@ export const InputField = ({ id, type, label, onChange, value, error }) => {
 				name={id}
 				id={id}
 				placeholder={label}
-				style={{ ...inputStyle, borderColor: error ? "red" : "grey" }}
+				style={{ ...inputStyle, ...customStyles, borderColor: error ? "red" : "grey" }}
 			/>
 		</div>
 	);
