@@ -54,7 +54,16 @@ const Wallet = () => {
 		axios
 			.get(url)
 			.then((res1) => {
-				setBitcoinValue(res1.data.data.priceUsd || 54082.8);
+				setBitcoinValue(res1.data.data.priceUsd);
+			})
+			.catch((e2) => {
+				setBitcoinValue(54082.8);
+				Toast(
+					"error",
+					"Unable to fetch bitcoin value from coincap, using default value 54082.8"
+				);
+			})
+			.finally(() => {
 				Apis.fetchUserData()
 					.then((res2) => {
 						setData(res2.user);
@@ -64,12 +73,6 @@ const Wallet = () => {
 						Toast("error", e1?.response?.data?.message);
 						navigate("/signin");
 					});
-			})
-			.catch((e2) => {
-				Toast(
-					"error",
-					"Unable to fetch bitcoin value from coincap, using default value"
-				);
 			});
 	}, [navigate]);
 
