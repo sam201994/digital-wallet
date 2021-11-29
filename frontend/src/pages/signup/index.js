@@ -53,7 +53,7 @@ const Signup = () => {
 		})
 			.then(() => navigate("/"))
 			.catch((e) => {
-				Toast("error", e.response.data.message);
+				Toast("error", e?.response?.data?.message);
 				AuthUtils.removeAuthToken();
 			});
 	};

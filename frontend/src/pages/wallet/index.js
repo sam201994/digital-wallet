@@ -61,7 +61,7 @@ const Wallet = () => {
 						setLoading(false);
 					})
 					.catch((e1) => {
-						Toast("error", e1.response.data.message);
+						Toast("error", e1?.response?.data?.message);
 						navigate("/signin");
 					});
 			})
@@ -86,7 +86,7 @@ const Wallet = () => {
 					setData(res.user);
 				})
 				.catch((e) => {
-					Toast("error", e.response.data.message);
+					Toast("error", e?.response?.data?.message);
 				});
 		}
 	};
@@ -105,7 +105,7 @@ const Wallet = () => {
 					setData(res.user);
 				})
 				.catch((e) => {
-					Toast("error", e.response.data.message);
+					Toast("error", e?.response?.data?.message);
 				});
 		}
 	};

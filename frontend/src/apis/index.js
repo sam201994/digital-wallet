@@ -1,8 +1,10 @@
 import axios from "axios";
 import AuthUtils from "utils/auth";
 
+const URL = "http://localhost:5000"
+
 const signin = async (data) => {
-	const response = await axios.post(`http://localhost:5000/user/signin`, {
+	const response = await axios.post(`${URL}/user/signin`, {
 		username: data.username.toLowerCase(),
 		password: data.password,
 	});
@@ -10,7 +12,7 @@ const signin = async (data) => {
 };
 
 const signup = async (data) => {
-	const response = await axios.post(`http://localhost:5000/user/signup`, {
+	const response = await axios.post(`${URL}/user/signup`, {
 		username: data.username.toLowerCase(),
 		password: data.password,
 	});
@@ -19,7 +21,7 @@ const signup = async (data) => {
 
 const fetchUserData = async (data) => {
 	const authToken = AuthUtils.getAuthToken();
-	const response = await axios.get(`http://localhost:5000/user`, {
+	const response = await axios.get(`${URL}/user`, {
 		headers: { Authorization: `Bearer ${authToken}` },
 	});
 	return response.data;
@@ -27,7 +29,7 @@ const fetchUserData = async (data) => {
 
 const buyBitcoin = async (data) => {
 	const authToken = AuthUtils.getAuthToken();
-	const response = await axios.post(`http://localhost:5000/bitcoin/buy`, data, {
+	const response = await axios.post(`${URL}/bitcoin/buy`, data, {
 		headers: { Authorization: `Bearer ${authToken}` },
 	});
 	return response.data;
@@ -36,7 +38,7 @@ const buyBitcoin = async (data) => {
 const sellBitcoin = async (data) => {
 	const authToken = AuthUtils.getAuthToken();
 	const response = await axios.post(
-		`http://localhost:5000/bitcoin/sell`,
+		`${URL}/bitcoin/sell`,
 		data,
 		{
 			headers: { Authorization: `Bearer ${authToken}` },

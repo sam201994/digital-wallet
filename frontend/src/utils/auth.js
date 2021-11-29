@@ -1,13 +1,13 @@
 const saveAuthToken = (token) => {
-	localStorage.setItem("authToken", JSON.stringify(token));
+	localStorage.setItem("digitalWalletAuthToken", JSON.stringify(token));
 };
 
 const getAuthToken = () => {
-	return JSON.parse(localStorage.getItem("authToken"));
+	return JSON.parse(localStorage.getItem("digitalWalletAuthToken"));
 };
 
 const removeAuthToken = () => {
-	localStorage.removeItem("authToken")
+	localStorage.removeItem("digitalWalletAuthToken")
 }
 
 const AuthUtils = {
