@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
 import { InputField } from "components/FormFields";
@@ -41,22 +42,33 @@ const CardLabel = ({ label }) => {
 };
 
 const Wallet = () => {
-	// const [valueOfBitcoin, setBitcoinValue] = useState(54082.8);
-	const valueOfBitcoin = 54082.8;
+	const [valueOfBitcoin, setBitcoinValue] = useState();
 	const [data, setData] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [numberOfBitcoins, setNumberOfBitcoin] = useState(1);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		Apis.fetchUserData()
-			.then((res) => {
-				setData(res.user);
-				setLoading(false);
+		const url = "https://api.coincap.io/v2/assets/bitcoin";
+		axios
+			.get(url)
+			.then((res1) => {
+				setBitcoinValue(res1.data.data.priceUsd || 54082.8);
+				Apis.fetchUserData()
+					.then((res2) => {
+						setData(res2.user);
+						setLoading(false);
+					})
+					.catch((e1) => {
+						Toast("error", e1.response.data.message);
+						navigate("/signin");
+					});
 			})
-			.catch((e) => {
-				Toast("error", e.response.data.message);
-				navigate("/signin");
+			.catch((e2) => {
+				Toast(
+					"error",
+					"Unable to fetch bitcoin value from coincap, using default value"
+				);
 			});
 	}, [navigate]);
 

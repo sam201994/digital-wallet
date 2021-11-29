@@ -1,5 +1,4 @@
 import axios from "axios";
-import { message } from "antd";
 import AuthUtils from "utils/auth";
 
 const signin = async (data) => {

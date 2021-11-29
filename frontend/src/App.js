@@ -4,8 +4,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-
+import { ToastContainer } from "react-toastify";
 import Signup from "pages/signup";
 import Signin from "pages/signin";
 import Wallet from "pages/wallet";
