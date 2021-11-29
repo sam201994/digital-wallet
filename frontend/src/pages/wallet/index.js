@@ -73,29 +73,40 @@ const Wallet = () => {
 	}, [navigate]);
 
 	const handleBuyBitcoin = () => {
-		Apis.buyBitcoin({
-			bitcoin: parseFloat(numberOfBitcoins),
-			value: valueOfBitcoin,
-		})
-			.then((res) => {
-				setData(res.user);
+		const confirmBox = window.confirm(
+			`Do you really want to buy ${parseFloat(numberOfBitcoins)} bitcoin`
+		);
+		if (confirmBox === true) {
+			Apis.buyBitcoin({
+				bitcoin: parseFloat(numberOfBitcoins),
+				value: valueOfBitcoin,
 			})
-			.catch((e) => {
-				Toast("error", e.response.data.message);
-			});
+				.then((res) => {
+					setData(res.user);
+				})
+				.catch((e) => {
+					Toast("error", e.response.data.message);
+				});
+		}
 	};
 
 	const handleSellBitcoin = () => {
-		Apis.sellBitcoin({
-			bitcoin: parseFloat(numberOfBitcoins),
-			value: valueOfBitcoin,
-		})
-			.then((res) => {
-				setData(res.user);
+		const confirmBox = window.confirm(
+			`Do you really want to sell ${parseFloat(numberOfBitcoins)} bitcoin`
+		);
+
+		if (confirmBox === true) {
+			Apis.sellBitcoin({
+				bitcoin: parseFloat(numberOfBitcoins),
+				value: valueOfBitcoin,
 			})
-			.catch((e) => {
-				Toast("error", e.response.data.message);
-			});
+				.then((res) => {
+					setData(res.user);
+				})
+				.catch((e) => {
+					Toast("error", e.response.data.message);
+				});
+		}
 	};
 
 	const handleBitcoin = (e) => {
