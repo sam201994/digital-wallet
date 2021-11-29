@@ -47,6 +47,7 @@ const Wallet = () => {
 	const [loading, setLoading] = useState(true);
 	const [numberOfBitcoins, setNumberOfBitcoin] = useState(1);
 	const navigate = useNavigate();
+	const currency = "$";
 
 	useEffect(() => {
 		const url = "https://api.coincap.io/v2/assets/bitcoin";
@@ -119,11 +120,11 @@ const Wallet = () => {
 			<Box.Auth>
 				<Card>
 					<CardLabel label="Value of 1 Bitcoin" />
-					<NumValu val={valueOfBitcoin} />
+					<NumValu val={`${currency} ${valueOfBitcoin}`} />
 				</Card>
 				<Card>
 					<CardLabel label="Wallet Balance" />
-					<NumValu val={data?.wallet?.value} />
+					<NumValu val={`${currency} ${data?.wallet?.value}`} />
 				</Card>
 				<Card>
 					<CardLabel label="Total Bitcoins Purchased" />
@@ -131,7 +132,7 @@ const Wallet = () => {
 				</Card>
 				<Card>
 					<CardLabel label="Purchased Bitcoins Worth" />
-					<NumValu val={data?.bitcoin?.value} />
+					<NumValu val={`${currency} ${data?.bitcoin?.value}`} />
 				</Card>
 				<div style={{ marginTop: "1rem" }} />
 				<Row>
@@ -147,7 +148,7 @@ const Wallet = () => {
 				</Row>
 				<Row style={{ justifyContent: "center" }}>
 					<div style={{ color: "blue", display: "flex", alignItems: "center" }}>
-						{valueOfBitcoin * numberOfBitcoins}
+						{`${currency} ${valueOfBitcoin * numberOfBitcoins}`}
 					</div>
 				</Row>
 
