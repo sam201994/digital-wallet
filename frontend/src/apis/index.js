@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthUtils from "utils/auth";
 
-const URL = "http://localhost:5000"
+const URL = process.env.REACT_APP_BACKEND_URL
 
 const signin = async (data) => {
 	const response = await axios.post(`${URL}/user/signin`, {
